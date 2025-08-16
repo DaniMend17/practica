@@ -12,7 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('id', 'desc')->get();
         return view('admin.categories.index', compact(['categories']));
     }
 
@@ -30,10 +30,18 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:categories',
+            'name' => 'required|string|max:255|unique:categories',
         ]);
-        $newCategory = Category::create($request->all());
-        return "category added";
+
+        //*Creamos una variable de sesión para mostrar un mensaje de exito.
+        session()->flash('swal', [
+            'title' => 'Categoría creada',
+            'text' => 'La categoría se ha creado correctamente.',
+            'icon' => 'success'
+        ]);
+
+        Category::create($request->all());
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -47,9 +55,9 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($category)
+    public function edit(Category $category)
     {
-        return "Editando categoria con id $category";
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -57,7 +65,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        //*Valida que el nombre del registro sea unico en la tabla categories pero que me excluya el nombre del registro actual.
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+        ]);
+
+        $category->update($request->all());
+
+        //*Creamos una variable de sesión para mostrar un mensaje de exito.
+        session()->flash('swal', [
+            'title' => 'Categoría actualizada',
+            'text' => 'La categoría se ha actualizado correctamente.',
+            'icon' => 'success'
+        ]);
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -65,6 +87,13 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        //*Creamos una variable de sesión para mostrar un mensaje de exito.
+        session()->flash('swal', [
+            'title' => 'Categoría eliminada',
+            'text' => 'La categoría se ha eliminado correctamente.',
+            'icon' => 'success'
+        ]);
+        return redirect()->route('admin.categories.index');
     }
 }

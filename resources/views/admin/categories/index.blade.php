@@ -18,7 +18,7 @@
                     <th scope="col" class="px-6 py-3">
                         Name
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" width="200">
                         Edit
                     </th>
                 </tr>
@@ -34,9 +34,17 @@
                             {{ $category->name }}
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('admin.categories.edit', $category->id) }}">
-                                Edit Category
-                            </a>
+                            <div class="flex items-center space-x-2">
+                                <a href="{{ route('admin.categories.edit', $category) }}" class="text-xs btn btn-green">
+                                    Edit category
+                                </a>
+                                <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                    class="btn btn-red delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -45,12 +53,28 @@
     </div>
 
 
-
-
-
-    {{-- @foreach ($categories as $category)
-        <ul>
-            <li>{{ $category->name }}</li>
-        </ul>
-    @endforeach --}}
+    {{-- Agregamos una validación para un mensaje de confirmación antes de eliminar un registro --}}
+    @push('js')
+        <script>
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "Cancel!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

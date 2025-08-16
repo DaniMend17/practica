@@ -17,6 +17,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
 </head>
@@ -140,7 +143,22 @@
         {{ $slot }}
     </flux:main>
 
+
+
     @fluxScripts
+
+    {{-- En caso de que exista una variable de sesión llamada swal lo
+    que hace es mostrar una alerta con la información correspondiente transformando la variable que
+    se encuentra en la sesión en un objeto JSON para que SweetAlert2 pueda interpretarlo. --}}
+    @if (session('swal'))
+        <script>
+            Swal.fire(@json(session('swal')));
+        </script>
+    @endif
+
+    {{-- Agregamso un stack para mostrar un mensaje de confirmación al momento de eliminar un registro --}}
+    @stack('js')
+
 </body>
 
 </html>
