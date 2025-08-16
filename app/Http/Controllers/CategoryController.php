@@ -29,7 +29,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $newCategory = Category::create($request);
+        $request->validate([
+            'name' => 'required|string|unique:categories',
+        ]);
+        $newCategory = Category::create($request->all());
         return "category added";
     }
 
