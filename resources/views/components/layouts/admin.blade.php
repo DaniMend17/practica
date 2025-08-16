@@ -42,6 +42,10 @@
                 <flux:navlist.item icon="home" :href="route('admin.categories.index')" {{-- Verificar que nos encontremos en cualquier ruta que inicie con categories. --}}
                     :current="request()->routeIs('admin.categories*')" wire:navigate>{{ __('Categories') }}
                 </flux:navlist.item>
+
+                <flux:navlist.item icon="book-open" :href="route('admin.posts.index')" {{-- Verificar que nos encontremos en cualquier ruta que inicie con categories. --}}
+                    :current="request()->routeIs('admin.posts*')" wire:navigate>{{ __('Posts') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
