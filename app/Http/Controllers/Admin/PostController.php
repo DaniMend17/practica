@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -82,8 +83,18 @@ class PostController extends Controller
             //*Excerpt unicamente es requerido cuando el valor de published es 1.
             'excerpt' => 'required_if:is_published,1|string',
             'content' => 'required|string',
-            'is_published' => 'required|boolean'
+            'is_published' => 'required|boolean',
+            //*Tags son opcionales, pero si se envían deben ser válidos.
+            // 'tags' => 'array'
         ]);
+
+        // $data['tags'] = ['Programación', 'Desarrollo Web', 'Laravel'];
+        // foreach ($data['tags'] as $tag) {
+        //     //*Busca si se encuentra el registro y si existe lo crea.
+        //     Tag::firstOrCreate(['name' => $tag]);
+        // }
+
+
 
         // $post->update($request->all());
         $post->update($data);

@@ -160,6 +160,22 @@
         </script>
     @endif
 
+
+    {{-- Mostramos un mensaje con los errores de validación que se detectaron --}}
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: `<ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>`
+            });
+        </script>
+    @endif
+
     {{-- Agregamso un stack para mostrar un mensaje de confirmación al momento de eliminar un registro --}}
     @stack('js')
 
