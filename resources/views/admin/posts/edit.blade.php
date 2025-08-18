@@ -7,14 +7,19 @@
         </flux:breadcrumbs>
     </div>
 
-    <form action="{{ route('admin.posts.update', $post) }}" method="POST">
+    <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data">
 
         @csrf
         @method('PUT')
 
         <div class="relative mb-4">
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+            <img src="{{ $post->image_path
+                ? Storage::url($post->image_path)
+                : 'https://cdn.wuxiaworld.eu/original/noimagefound_PxUD0gM.jpg' }}"
                 class="w-full aspect-video object-cover object-center" id="imgPreview">
+
+
+
             <div class="absolute ">
                 <label class="bg-black px-4 py-2 rounded-lg cursor-pointer">
                     Change image
@@ -27,7 +32,12 @@
         <div class="bg-black px-6 py-8 rounded-lg shadow-lg space-y-4">
             <flux:input name="title" label="Post title" value="{{ old('title', $post->title) }}"
                 oninput="string_to_slug(this.value, '#slug')" />
-            <flux:input name="slug" id="slug" label="Post slug" value="{{ old('slug', $post->slug) }}" />
+
+            {{-- Este campo unicamente se mostrará si publised_at es null --}}
+            @if (!$post->published_at)
+                <flux:input name="slug" id="slug" label="Post slug" value="{{ old('slug', $post->slug) }}" />
+            @endif
+
             <flux:textarea name="excerpt" label="Update excerpt">{{ old('excerpt', $post->excerpt) }}</flux:textarea>
 
             <flux:select name="category_id" label="Post categories" placeholder="Choose category...">
