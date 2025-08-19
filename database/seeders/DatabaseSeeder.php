@@ -33,5 +33,9 @@ class DatabaseSeeder extends Seeder
         Category::factory(10)->create();
         Post::factory(100)->create();
         Tag::create(['name' => 'Programación']);
+
+        $this->call([
+            PermissionSeeder::class,
+        ]);
     }
 }

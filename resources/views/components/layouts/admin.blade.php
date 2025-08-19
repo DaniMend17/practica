@@ -43,9 +43,14 @@
                     :current="request()->routeIs('admin.categories*')" wire:navigate>{{ __('Categories') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="book-open" :href="route('admin.posts.index')" {{-- Verificar que nos encontremos en cualquier ruta que inicie con categories. --}}
+                <flux:navlist.item icon="book-open" :href="route('admin.posts.index')"
                     :current="request()->routeIs('admin.posts*')" wire:navigate>{{ __('Posts') }}
                 </flux:navlist.item>
+
+                <flux:navlist.item icon="key" :href="route('admin.permissions.index')"
+                    :current="request()->routeIs('admin.permissions*')" wire:navigate>{{ __('Permissions') }}
+                </flux:navlist.item>
+
             </flux:navlist.group>
         </flux:navlist>
 
@@ -79,7 +84,8 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
-                    <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}
+                    <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
+                        {{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>
 
