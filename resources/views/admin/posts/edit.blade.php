@@ -13,10 +13,12 @@
         @method('PUT')
 
         <div class="relative mb-4">
-            <img src="{{ $post->image_path
+            {{-- <img src="{{ $post->image_path
                 ? Storage::url($post->image_path)
                 : 'https://cdn.wuxiaworld.eu/original/noimagefound_PxUD0gM.jpg' }}"
-                class="w-full aspect-video object-cover object-center" id="imgPreview">
+                class="w-full aspect-video object-cover object-center" id="imgPreview"> --}}
+
+            <img src="{{ $post->image }}" class="w-full aspect-video object-cover object-center" id="imgPreview">
 
 
 

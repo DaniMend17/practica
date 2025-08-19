@@ -4,9 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
+//* Agregamos la interfaz HasMiddleware para poder usar el método middleware.
+// class CategoryController extends Controller implements HasMiddleware
 class CategoryController extends Controller
 {
+
+    //*Usamos el método middleware para poder aplicar el middleware IsAdmin a las rutas de este controlador.
+    //*El middleware IsAdmin se aplica unicamente a las rutas index y edit.
+    // public static function middleware()
+    // {
+    //     return [new Middleware(
+    //         'admin',
+    //         //* Excluimos las rutas create, store, show, update y destroy del middleware IsAdmin.
+    //         // except: ['create', 'store', 'show', 'update', 'destroy'],
+    //         //* Solo aplicamos el middleware IsAdmin a las rutas index y edit.
+    //         only: ['index', 'edit',]
+    //     )];
+    // }
+
+
     /**
      * Display a listing of the resource.
      */
